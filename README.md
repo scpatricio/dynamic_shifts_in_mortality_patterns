@@ -1,5 +1,5 @@
 # Detecting Late-Life Mortality Plateaus  
-### Replication Materials for Manuscript III
+### Replication Materials for Manuscript 'Dynamic Shifts in Mortality Patterns at Extreme Ages'
 
 This folder contains the code accompanying the thesis chapter on **late-life mortality plateaus**. The chapter investigates whether age-specific mortality stops increasing at the highest ages and develops a framework to **detect and quantify mortality plateaus** using Human Mortality Database (HMD) data.
 
