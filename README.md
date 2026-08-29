@@ -1,20 +1,90 @@
-# Detecting Late-Life Mortality Plateaus  
-### Replication Materials for Manuscript 'Dynamic Shifts in Mortality Patterns at Extreme Ages'
+# Moving Mortality Plateau
 
-This folder contains the code accompanying the thesis chapter on **late-life mortality plateaus**. The chapter investigates whether age-specific mortality stops increasing at the highest ages and develops a framework to **detect and quantify mortality plateaus** using Human Mortality Database (HMD) data.
+Code and reproducibility materials for the manuscript *Rescheduled, not redefined: The moving plateau of old-age mortality* by Silvio C. Patricio and Trifon I. Missov.
 
-The material here focuses on:
+The analysis uses cohort mortality and exposure data from the [Human Mortality Database](https://www.mortality.org/) for 12 low-mortality countries, for females and males. It estimates changes in the modal age at death, mortality deceleration, and plateau onset using a Bayesian gamma–Gompertz state-space model. A spike-and-slab analysis assesses how much evidence the data provide for mortality deceleration or a plateau.
 
-- estimating age-specific hazards at old ages,
-- assessing the deviation from log-linear Gompertz behaviour,
-- and identifying ages where mortality levels off into a plateau.
+## Repository structure
 
----
+```text
+.
+├── analysis/                  # Scripts, run in numerical order
+├── R/                         # Shared configuration and functions
+├── stan/                      # Main and spike-and-slab models
+├── data/
+│   ├── raw/                   # Authenticated HMD download (not committed)
+│   └── derived/               # Analysis-ready data (not committed)
+├── results/
+│   ├── fits/                  # Large Stan fit objects (not committed)
+│   └── summaries/             # Compact derived results
+├── figures/
+│   ├── diagnostics/           # Population-specific model checks
+│   └── manuscript/            # Main and supplementary figures
+└── CODE_AUDIT.md              # Changes made during code cleanup
+```
 
-## Purpose of This Folder
+## Requirements
 
-The goal of this directory is to provide a **reusable toolkit** to:
+R 4.1 or later and the following packages:
 
-- read age-specific death counts and exposures from HMD-like files,
-- estimate hazards and model them (e.g. Gompertz vs plateau),
-- and apply statistical toold to detect wether a **late-life plateau** is present.
+```r
+install.packages(c(
+  "dplyr", "tidyr", "purrr", "ggplot2", "patchwork", "here",
+  "rstan", "HDInterval", "modeest", "matrixStats", "HMDHFDplus"
+))
+```
+
+A working C++ toolchain is also required by `rstan`.
+
+## Data access
+
+The script downloads data directly from the HMD (https://www.mortality.org),
+which requires a free account. Credentials are read from environment
+variables rather than hard-coded:
+
+```bash
+export HMD_USERNAME="you@example.com"
+export HMD_PASSWORD="your_password"
+```
+If you do not have a credential, please use
+```bash
+HMD_USERNAME="silca@sam.sdu.dk"
+HMD_PASSWORD="tobtYd-5xywpu-vanjeb"
+```
+
+## Run the analysis
+
+Run all commands from the repository root:
+
+```bash
+Rscript analysis/01_download_hmd_data.R
+Rscript analysis/02_fit_main_model.R
+Rscript analysis/03_summarize_landmarks.R
+Rscript analysis/04_model_diagnostics.R
+Rscript analysis/05_fit_spike_slab.R
+Rscript analysis/06_plot_spike_slab.R
+Rscript analysis/07_make_figures.R
+```
+
+The scripts must be run in numerical order. Stan defaults match the manuscript: four chains, 4,000 warm-up iterations, and 2,000 retained iterations per chain. For a short test run, these settings can be overridden:
+
+```bash
+STAN_CHAINS=1 STAN_WARMUP=100 STAN_SAMPLING=100 Rscript analysis/02_fit_main_model.R
+```
+
+Set `OVERWRITE=true` to replace existing model fits.
+
+## Main outputs
+
+- `results/summaries/mortality_landmarks.rds`: posterior summaries of the modal age at death, mortality deceleration, plateau onset, equivalent plateau hazard, and survival to the landmarks.
+- `results/summaries/spike_slab_summary.rds`: cohort-specific posterior probability of a pure Gompertz tail.
+- `figures/manuscript/`: figures used by the manuscript.
+- `figures/diagnostics/`: posterior predictive checks and parameter trajectories.
+
+## Data note
+
+HMD data are downloaded by the user under the HMD terms of use. The download script saves a local raw copy and a compact analysis-ready file. Death counts are reconstructed as `round(Ex * Mx)`, following the manuscript analysis.
+
+## Citation
+
+Please cite the manuscript and the Human Mortality Database when using this code or its derived results.
