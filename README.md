@@ -1,6 +1,7 @@
 # Rescheduled, not redefined: The moving plateau of old-age mortality
 
 Silvio C. Patricio & Trifon I. Missov
+
 Interdisciplinary Center on Population Dynamics, University of Southern Denmark
 
 **Preprint:** https://doi.org/10.48550/arXiv.2608.29452
