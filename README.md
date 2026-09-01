@@ -2,7 +2,7 @@
 
 Code and reproducibility materials for the manuscript *Rescheduled, not redefined: The moving plateau of old-age mortality* by Silvio C. Patricio and Trifon I. Missov.
 
-**Preprint:** https://doi.org/10.48550/arXiv.XXXXXXX
+**Preprint:** https://doi.org/10.48550/arXiv.2608.29452
 
 
 The analysis uses cohort mortality and exposure data from the [Human Mortality Database](https://www.mortality.org/) for 12 low-mortality countries, for females and males. It estimates changes in the modal age at death, mortality deceleration, and plateau onset using a Bayesian gamma–Gompertz state-space model. A spike-and-slab analysis assesses how much evidence the data provide for mortality deceleration or a plateau.
