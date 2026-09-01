@@ -1,11 +1,38 @@
-# Moving Mortality Plateau
+# Rescheduled, not redefined: The moving plateau of old-age mortality
 
-Code and reproducibility materials for the manuscript *Rescheduled, not redefined: The moving plateau of old-age mortality* by Silvio C. Patricio and Trifon I. Missov.
+Silvio C. Patricio & Trifon I. Missov
+Interdisciplinary Center on Population Dynamics, University of Southern Denmark
 
 **Preprint:** https://doi.org/10.48550/arXiv.2608.29452
 
+Code and reproducibility materials for the manuscript.
 
 The analysis uses cohort mortality and exposure data from the [Human Mortality Database](https://www.mortality.org/) for 12 low-mortality countries, for females and males. It estimates changes in the modal age at death, mortality deceleration, and plateau onset using a Bayesian gamma–Gompertz state-space model. A spike-and-slab analysis assesses how much evidence the data provide for mortality deceleration or a plateau.
+
+## Citation
+
+If you use this code, please cite the paper.
+
+**Paper**
+
+> Patricio, S., & Missov, T. (2026). *Rescheduled, not redefined: 
+> The moving plateau of old-age mortality* arXiv:2608.29452.
+> https://doi.org/10.48550/arXiv.2608.29452
+
+**BibTeX**
+
+```bibtex
+@article{patricio2026rescheduled,
+      title={Rescheduled, not redefined: The moving plateau of old-age mortality}, 
+      author={Silvio C. Patricio and Trifon I. Missov},
+      year={2026},
+      eprint={2608.29452},
+      archivePrefix={arXiv},
+      primaryClass={stat.AP},
+      doi= {10.48550/arXiv.2608.29452},
+      url={https://arxiv.org/abs/2608.29452},
+}
+```
 
 ## Repository structure
 
