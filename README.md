@@ -11,22 +11,6 @@ mortality deceleration, plateau onset, and plateau level across birth cohorts.
 
 The analysis uses cohort mortality and exposure data from the [Human Mortality Database](https://www.mortality.org/) for 12 low-mortality countries, for females and males. It estimates changes in the modal age at death, mortality deceleration, and plateau onset using a Bayesian gamma–Gompertz state-space model. A spike-and-slab analysis assesses how much evidence the data provide for mortality deceleration or a plateau.
 
-## Citation and archived release
-
-This repository is intended to be archived as software on Zenodo under the
-title **Bayesian gamma–Gompertz state-space models for mortality landmark
-estimation**. This software title is independent of the manuscript title and
-does not need to change if the manuscript is retitled.
-
-After the first GitHub release is archived, Zenodo will assign a DOI and show
-the formatted citation for that specific software version. Please cite the
-archived Zenodo release when using the code and cite the related preprint or
-published article when referring to the scientific findings.
-
-Until the final article is available, use the current title and citation shown
-on the [arXiv record](https://arxiv.org/abs/2608.29452). This avoids hard-coding
-a manuscript title that may change during revision.
-
 ## Repository structure
 
 ```text
