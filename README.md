@@ -1,39 +1,31 @@
-# Rescheduled, not redefined: The moving plateau of old-age mortality
+# Bayesian gamma–Gompertz state-space models for mortality landmark estimation
 
 Silvio C. Patricio & Trifon I. Missov
 
 Interdisciplinary Center on Population Dynamics, University of Southern Denmark
 
-**Preprint:** https://doi.org/10.48550/arXiv.2608.29452
+Code and reproducibility materials for estimating the modal age at death,
+mortality deceleration, plateau onset, and plateau level across birth cohorts.
 
-Code and reproducibility materials for the manuscript.
+**Related preprint:** [arXiv:2608.29452](https://doi.org/10.48550/arXiv.2608.29452)
 
 The analysis uses cohort mortality and exposure data from the [Human Mortality Database](https://www.mortality.org/) for 12 low-mortality countries, for females and males. It estimates changes in the modal age at death, mortality deceleration, and plateau onset using a Bayesian gamma–Gompertz state-space model. A spike-and-slab analysis assesses how much evidence the data provide for mortality deceleration or a plateau.
 
-## Citation
+## Citation and archived release
 
-If you use this code, please cite the paper.
+This repository is intended to be archived as software on Zenodo under the
+title **Bayesian gamma–Gompertz state-space models for mortality landmark
+estimation**. This software title is independent of the manuscript title and
+does not need to change if the manuscript is retitled.
 
-**Paper**
+After the first GitHub release is archived, Zenodo will assign a DOI and show
+the formatted citation for that specific software version. Please cite the
+archived Zenodo release when using the code and cite the related preprint or
+published article when referring to the scientific findings.
 
-> Patricio, S., & Missov, T. (2026). *Rescheduled, not redefined: 
-> The moving plateau of old-age mortality* arXiv:2608.29452.
-> https://doi.org/10.48550/arXiv.2608.29452
-
-**BibTeX**
-
-```bibtex
-@article{patricio2026rescheduled,
-      title={Rescheduled, not redefined: The moving plateau of old-age mortality}, 
-      author={Silvio C. Patricio and Trifon I. Missov},
-      year={2026},
-      eprint={2608.29452},
-      archivePrefix={arXiv},
-      primaryClass={stat.AP},
-      doi= {10.48550/arXiv.2608.29452},
-      url={https://arxiv.org/abs/2608.29452},
-}
-```
+Until the final article is available, use the current title and citation shown
+on the [arXiv record](https://arxiv.org/abs/2608.29452). This avoids hard-coding
+a manuscript title that may change during revision.
 
 ## Repository structure
 
@@ -77,11 +69,9 @@ variables rather than hard-coded:
 export HMD_USERNAME="you@example.com"
 export HMD_PASSWORD="your_password"
 ```
-If you do not have a credential, please use
-```bash
-HMD_USERNAME="silca@sam.sdu.dk"
-HMD_PASSWORD="tobtYd-5xywpu-vanjeb"
-```
+
+Do not commit or share HMD credentials. Users without an account should
+register directly with the Human Mortality Database.
 
 ## Run the analysis
 
@@ -116,6 +106,8 @@ Set `OVERWRITE=true` to replace existing model fits.
 
 HMD data are downloaded by the user under the HMD terms of use. The download script saves a local raw copy and a compact analysis-ready file. Death counts are reconstructed as `round(Ex * Mx)`, following the manuscript analysis.
 
-## Citation
+## License
 
-Please cite the manuscript and the Human Mortality Database when using this code or its derived results.
+The code is released under the MIT License. HMD data remain subject to the
+Human Mortality Database terms of use and are not redistributed in this
+repository or the Zenodo software archive.
