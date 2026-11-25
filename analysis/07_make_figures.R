@@ -10,23 +10,23 @@ suppressPackageStartupMessages({
 source(here::here("R", "config.R"))
 source(here::here("R", "helpers.R"))
 
-summary_file <- here::here("results", "summaries", "mortality_landmarks.rds")
-data_file <- here::here("data", "derived", "hmd_cohort_data.rds")
-fit_directory <- here::here("results", "fits", "main")
-figure_directory <- here::here("figures", "manuscript")
-summary_directory <- here::here("results", "summaries")
+summary_file = here::here("results", "summaries", "mortality_landmarks.rds")
+data_file = here::here("data", "derived", "hmd_cohort_data.rds")
+fit_directory = here::here("results", "fits", "main")
+figure_directory = here::here("figures", "manuscript")
+summary_directory = here::here("results", "summaries")
 dir.create(figure_directory, recursive = TRUE, showWarnings = FALSE)
 
 assert_file(summary_file)
 assert_file(data_file)
 
-landmarks <- readRDS(summary_file)
-cohort_data <- readRDS(data_file)
+landmarks = readRDS(summary_file)
+cohort_data = readRDS(data_file)
 
-base_theme <- theme_minimal() +
+base_theme = theme_minimal() +
   theme(legend.position = "bottom")
 
-markers_long <- dplyr::bind_rows(
+markers_long = dplyr::bind_rows(
   dplyr::transmute(
     landmarks, country, sex, year, marker = "Modal age at death",
     age = mad_mode, low = mad_HDI_low, high = mad_HDI_hi
@@ -47,7 +47,7 @@ markers_long <- dplyr::bind_rows(
     )
   )
 
-schedule_plot <- ggplot(
+schedule_plot = ggplot(
   markers_long,
   aes(
     x = year,
@@ -80,13 +80,13 @@ ggsave(
   device = cairo_pdf
 )
 
-gap_data <- landmarks |>
+gap_data = landmarks |>
   dplyr::mutate(
     mode_to_deceleration = dec_mode - mad_mode,
     deceleration_to_plateau = onset_mode - dec_mode
   )
 
-gap_one <- ggplot(
+gap_one = ggplot(
   gap_data,
   aes(x = year, y = mode_to_deceleration, colour = sex)
 ) +
@@ -96,7 +96,7 @@ gap_one <- ggplot(
   labs(x = NULL, y = "Gap (years)", subtitle = "Mode to mortality deceleration") +
   base_theme
 
-gap_two <- ggplot(
+gap_two = ggplot(
   gap_data,
   aes(x = year, y = deceleration_to_plateau, colour = sex)
 ) +
@@ -106,7 +106,7 @@ gap_two <- ggplot(
   labs(x = "Cohort (birth year)", y = "Gap (years)", subtitle = "Deceleration to plateau onset") +
   base_theme
 
-gap_plot <- gap_one / gap_two +
+gap_plot = gap_one / gap_two +
   patchwork::plot_layout(guides = "collect") &
   theme(legend.position = "bottom")
 
@@ -118,7 +118,7 @@ ggsave(
   device = cairo_pdf
 )
 
-level_plot <- ggplot(
+level_plot = ggplot(
   landmarks,
   aes(x = year, y = ehaz_mode, colour = sex, fill = sex)
 ) +
@@ -139,7 +139,7 @@ ggsave(
   device = cairo_pdf
 )
 
-survival_plot <- ggplot(
+survival_plot = ggplot(
   landmarks,
   aes(x = year, y = prob_dec, colour = sex, fill = sex)
 ) +
@@ -164,7 +164,7 @@ ggsave(
   device = cairo_pdf
 )
 
-count_data <- cohort_data |>
+count_data = cohort_data |>
   dplyr::filter(Age > 100, Sex %in% sexes) |>
   dplyr::mutate(
     death_count = cut(
@@ -175,7 +175,7 @@ count_data <- cohort_data |>
     )
   )
 
-count_plot <- ggplot(count_data, aes(x = Year, y = Age, fill = death_count)) +
+count_plot = ggplot(count_data, aes(x = Year, y = Age, fill = death_count)) +
   geom_tile() +
   facet_grid(sex ~ country) +
   scale_fill_viridis_d(option = "C", na.value = "white", drop = FALSE) +
@@ -194,11 +194,11 @@ ggsave(
   device = cairo_pdf
 )
 
-selected_countries <- c("Australia", "France", "Japan", "Sweden")
-fits <- load_fit_objects(fit_directory)
-hyperparameter_draws <- lapply(fits, function(fit_object) {
+selected_countries = c("Australia", "France", "Japan", "Sweden")
+fits = load_fit_objects(fit_directory)
+hyperparameter_draws = lapply(fits, function(fit_object) {
   if (!fit_object$country %in% selected_countries) return(NULL)
-  draws <- rstan::extract(
+  draws = rstan::extract(
     fit_object$fit,
     pars = c("tau_a", "tau_b", "tau_gamma", "phi"),
     permuted = TRUE
@@ -226,7 +226,7 @@ hyperparameter_draws <- lapply(fits, function(fit_object) {
     )
   )
 
-hyperparameter_plot <- ggplot(
+hyperparameter_plot = ggplot(
   hyperparameter_draws,
   aes(x = value, colour = country)
 ) +
@@ -244,7 +244,7 @@ ggsave(
   device = cairo_pdf
 )
 
-mean_changes <- landmarks |>
+mean_changes = landmarks |>
   dplyr::group_by(country, sex) |>
   dplyr::arrange(year, .by_group = TRUE) |>
   dplyr::summarise(

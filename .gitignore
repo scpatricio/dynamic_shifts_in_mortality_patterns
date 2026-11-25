@@ -1,0 +1,8 @@
+.DS_Store
+.Rhistory
+data/raw/*
+!data/raw/.gitkeep
+data/derived/*
+!data/derived/.gitkeep
+stan/*.rds
+results/fits/**/*.rds

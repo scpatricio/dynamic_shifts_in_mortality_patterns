@@ -8,8 +8,8 @@ suppressPackageStartupMessages({
 
 source(here::here("R", "config.R"))
 source(here::here("R", "helpers.R"))
-hmd_username <- "hmd_username"
-hmd_password <- "hmd_password"
+hmd_username = Sys.getenv("HMD_USERNAME")
+hmd_password = Sys.getenv("HMD_PASSWORD")
 
 if (!nzchar(hmd_username) || !nzchar(hmd_password)) {
   stop(
@@ -18,24 +18,24 @@ if (!nzchar(hmd_username) || !nzchar(hmd_password)) {
   )
 }
 
-raw_directory <- here::here("data", "raw")
-derived_directory <- here::here("data", "derived")
+raw_directory = here::here("data", "raw")
+derived_directory = here::here("data", "derived")
 dir.create(raw_directory, recursive = TRUE, showWarnings = FALSE)
 dir.create(derived_directory, recursive = TRUE, showWarnings = FALSE)
 
-country_lookup <- HMDHFDplus::getHMDcountries() |>
+country_lookup = HMDHFDplus::getHMDcountries() |>
   dplyr::filter(CNTRY %in% country_codes) |>
   dplyr::select(CNTRY, Country)
 
-missing_codes <- setdiff(country_codes, country_lookup$CNTRY)
+missing_codes = setdiff(country_codes, country_lookup$CNTRY)
 if (length(missing_codes)) {
   stop("HMD country codes not found: ", paste(missing_codes, collapse = ", "))
 }
 
-download_item <- function(item, value_name) {
+download_item = function(item, value_name) {
   purrr::map_dfr(country_codes, function(code) {
     message("Downloading ", item, " for ", code)
-    downloaded <- HMDHFDplus::readHMDweb(
+    downloaded = HMDHFDplus::readHMDweb(
       CNTRY = code,
       item = item,
       username = hmd_username,
@@ -58,20 +58,20 @@ download_item <- function(item, value_name) {
   })
 }
 
-cohort_mx <- download_item("cMx_1x1", "Mx")
-cohort_exposure <- download_item("cExposures_1x1", "Ex")
+cohort_mx = download_item("cMx_1x1", "Mx")
+cohort_exposure = download_item("cExposures_1x1", "Ex")
 
 saveRDS(
   list(mx = cohort_mx, exposure = cohort_exposure),
   file.path(raw_directory, "hmd_cohort_download.rds")
 )
 
-join_keys <- intersect(
+join_keys = intersect(
   c("Year", "Age", "OpenInterval", "CNTRY", "Country", "Sex"),
   intersect(names(cohort_mx), names(cohort_exposure))
 )
 
-cohort_data <- cohort_exposure |>
+cohort_data = cohort_exposure |>
   dplyr::inner_join(cohort_mx, by = join_keys) |>
   dplyr::filter(
     Year >= cohort_min,
@@ -90,7 +90,7 @@ cohort_data <- cohort_exposure |>
 
 saveRDS(cohort_data, file.path(derived_directory, "hmd_cohort_data.rds"))
 
-coverage <- cohort_data |>
+coverage = cohort_data |>
   dplyr::group_by(CNTRY, Country, Sex) |>
   dplyr::summarise(
     first_cohort = min(Year),

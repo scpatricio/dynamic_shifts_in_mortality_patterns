@@ -1,5 +1,5 @@
-prepare_series <- function(data, code, sex, age_0 = age_min) {
-  observations <- data |>
+prepare_series = function(data, code, sex, age_0 = age_min) {
+  observations = data |>
     dplyr::filter(
       CNTRY == code,
       Sex == sex,
@@ -17,8 +17,8 @@ prepare_series <- function(data, code, sex, age_0 = age_min) {
     stop("No observations for ", code, " / ", sex, call. = FALSE)
   }
 
-  years <- sort(unique(observations$Year))
-  stan_data <- list(
+  years = sort(unique(observations$Year))
+  stan_data = list(
     Y = length(years),
     N = nrow(observations),
     yr = as.integer(match(observations$Year, years)),
@@ -30,9 +30,9 @@ prepare_series <- function(data, code, sex, age_0 = age_min) {
   list(observations = observations, years = years, stan_data = stan_data)
 }
 
-sample_series <- function(stan_model, prepared, code, sex, model_name) {
+sample_series = function(stan_model, prepared, code, sex, model_name) {
   message("Fitting ", model_name, ": ", code, " / ", sex)
-  fit <- rstan::sampling(
+  fit = rstan::sampling(
     object = stan_model,
     data = prepared$stan_data,
     chains = stan_chains,
@@ -45,8 +45,8 @@ sample_series <- function(stan_model, prepared, code, sex, model_name) {
     control = list(adapt_delta = 0.95, max_treedepth = 12L)
   )
 
-  country <- unique(prepared$observations$Country)
-  if (length(country) != 1L) country <- code
+  country = unique(prepared$observations$Country)
+  if (length(country) != 1L) country = code
 
   list(
     fit = fit,
@@ -61,20 +61,20 @@ sample_series <- function(stan_model, prepared, code, sex, model_name) {
   )
 }
 
-fit_all_series <- function(data, stan_file, output_directory, model_name) {
+fit_all_series = function(data, stan_file, output_directory, model_name) {
   dir.create(output_directory, recursive = TRUE, showWarnings = FALSE)
   rstan::rstan_options(auto_write = TRUE)
-  compiled_model <- rstan::stan_model(file = stan_file)
+  compiled_model = rstan::stan_model(file = stan_file)
 
   for (code in country_codes) {
     for (sex in sexes) {
-      output_file <- file.path(output_directory, fit_filename(code, sex))
+      output_file = file.path(output_directory, fit_filename(code, sex))
       if (file.exists(output_file) && !overwrite_fits) {
         message("Skipping existing fit: ", basename(output_file))
         next
       }
-      prepared <- prepare_series(data, code, sex)
-      fit_object <- sample_series(compiled_model, prepared, code, sex, model_name)
+      prepared = prepare_series(data, code, sex)
+      fit_object = sample_series(compiled_model, prepared, code, sex, model_name)
       saveRDS(fit_object, output_file)
     }
   }

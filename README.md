@@ -1,6 +1,6 @@
 # Bayesian gamma–Gompertz state-space models for mortality landmark estimation
 
-Silvio C. Patricio & Trifon I. Missov
+Silvio C. Patricio
 
 Interdisciplinary Center on Population Dynamics, University of Southern Denmark
 
@@ -24,10 +24,9 @@ The analysis uses cohort mortality and exposure data from the [Human Mortality D
 ├── results/
 │   ├── fits/                  # Large Stan fit objects (not committed)
 │   └── summaries/             # Compact derived results
-├── figures/
-│   ├── diagnostics/           # Population-specific model checks
-│   └── manuscript/            # Main and supplementary figures
-└── CODE_AUDIT.md              # Changes made during code cleanup
+└── figures/
+    ├── diagnostics/           # Population-specific model checks
+    └── manuscript/            # Main and supplementary figures
 ```
 
 ## Requirements
